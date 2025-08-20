@@ -78,11 +78,20 @@ export default function StyleDemo() {
 
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Cards</Text>
-        <View style={t.components.card.base}><Text>Base Card</Text></View>
+        <View style={t.components.card.base}>
+          <Text style={t.typography.text.md}>Base Card</Text>
+          <Text style={{ ...t.typography.text.sm, color: t.colors.text.secondary }}>Secondary text example</Text>
+        </View>
         <View style={{ height: spacing(2) }} />
-        <View style={t.components.card.elevated}><Text>Elevated Card</Text></View>
+        <View style={t.components.card.elevated}>
+          <Text style={t.typography.text.md}>Elevated Card</Text>
+          <Text style={{ ...t.typography.text.sm, color: t.colors.text.secondary }}>Shadow + surface</Text>
+        </View>
         <View style={{ height: spacing(2) }} />
-        <View style={t.components.card.outlined}><Text>Outlined Card</Text></View>
+        <View style={t.components.card.outlined}>
+          <Text style={t.typography.text.md}>Outlined Card</Text>
+          <Text style={{ ...t.typography.text.sm, color: t.colors.text.secondary }}>Border accent</Text>
+        </View>
       </View>
 
       <View style={styles.section}>

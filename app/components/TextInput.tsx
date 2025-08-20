@@ -27,14 +27,19 @@ export const TextInput: React.FC<CustomTextInputProps> = ({
 
   const inputStyle = {
     borderWidth: 1,
-    borderColor: error ? t.colors.danger[500] : t.colors.neutral[300],
-    backgroundColor: t.colors.background,
-    borderRadius: 8,
-    paddingHorizontal: 12,
-    paddingVertical: 12,
+    borderColor: error ? t.colors.danger[500] : t.colors.border,
+    backgroundColor: t.colors.surface,
+    borderRadius: 12,
+    paddingHorizontal: 16,
+    paddingVertical: 14,
     fontSize: 16,
     color: t.colors.text.primary,
     fontFamily: t.typography.text.md.fontFamily,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+    elevation: 2,
   };
 
   return (
@@ -45,8 +50,8 @@ export const TextInput: React.FC<CustomTextInputProps> = ({
             t.typography.text.sm,
             {
               color: t.colors.text.primary,
-              marginBottom: 4,
-              fontWeight: "500",
+              marginBottom: 8,
+              fontWeight: "600",
             },
           ]}
         >
@@ -64,7 +69,8 @@ export const TextInput: React.FC<CustomTextInputProps> = ({
             t.typography.text.sm,
             {
               color: t.colors.danger[500],
-              marginTop: 4,
+              marginTop: 6,
+              fontWeight: "500",
             },
           ]}
         >

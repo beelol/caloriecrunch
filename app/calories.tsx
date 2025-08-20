@@ -114,17 +114,28 @@ export default function CaloriesPage() {
         flex: 1,
         backgroundColor: t.colors.background,
       }}
-      contentContainerStyle={{ padding: spacing(4) }}
+      contentContainerStyle={{ padding: spacing(4), paddingBottom: spacing(8) }}
     >
       {/* Header */}
-      <View style={{ marginBottom: spacing(6) }}>
+      <View
+        style={{
+          marginBottom: spacing(6),
+          paddingVertical: spacing(4),
+          borderBottomWidth: 1,
+          borderBottomColor: t.colors.border,
+        }}
+      >
         <Text
           style={[
-            t.typography.heading.lg,
-            { color: t.colors.text.primary, textAlign: "center" },
+            t.typography.heading.xl,
+            {
+              color: t.colors.text.primary,
+              textAlign: "center",
+              fontWeight: "800",
+            },
           ]}
         >
-          Calorie Tracker
+          🍎 Calorie Tracker
         </Text>
       </View>
 
@@ -135,37 +146,67 @@ export default function CaloriesPage() {
           justifyContent: "space-between",
           alignItems: "center",
           marginBottom: spacing(4),
-          padding: spacing(3),
-          backgroundColor: t.colors.neutral[50],
-          borderRadius: 12,
+          padding: spacing(4),
+          backgroundColor: t.colors.surface,
+          borderRadius: 16,
+          borderWidth: 1,
+          borderColor: t.colors.border,
+          shadowColor: "#000",
+          shadowOffset: { width: 0, height: 2 },
+          shadowOpacity: 0.1,
+          shadowRadius: 8,
+          elevation: 4,
         }}
       >
         <TouchableOpacity
           onPress={goToPreviousDay}
           style={{
-            padding: spacing(2),
+            padding: spacing(3),
             backgroundColor: t.colors.primary[500],
-            borderRadius: 8,
+            borderRadius: 12,
+            minWidth: 44,
+            alignItems: "center",
+            justifyContent: "center",
+            shadowColor: t.colors.primary[500],
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: 0.3,
+            shadowRadius: 4,
+            elevation: 3,
           }}
         >
-          <Text style={{ color: "white", fontWeight: "bold" }}>←</Text>
+          <Text style={{ color: "white", fontWeight: "bold", fontSize: 18 }}>
+            ←
+          </Text>
         </TouchableOpacity>
 
         <View style={{ alignItems: "center" }}>
           <Text
             style={[
-              t.typography.text.lg,
-              { color: t.colors.text.primary, fontWeight: "bold" },
+              t.typography.heading.md,
+              {
+                color: t.colors.text.primary,
+                fontWeight: "bold",
+                textAlign: "center",
+              },
             ]}
           >
             {isToday(selectedDate) ? "Today" : formatDate(selectedDate)}
           </Text>
           {!isToday(selectedDate) && (
-            <TouchableOpacity onPress={goToToday}>
+            <TouchableOpacity
+              onPress={goToToday}
+              style={{
+                marginTop: spacing(1),
+                paddingHorizontal: spacing(2),
+                paddingVertical: spacing(1),
+                backgroundColor: t.colors.primary[100],
+                borderRadius: 8,
+              }}
+            >
               <Text
                 style={[
                   t.typography.text.sm,
-                  { color: t.colors.primary[500], marginTop: 2 },
+                  { color: t.colors.primary[600], fontWeight: "600" },
                 ]}
               >
                 Go to Today
@@ -177,12 +218,24 @@ export default function CaloriesPage() {
         <TouchableOpacity
           onPress={goToNextDay}
           style={{
-            padding: spacing(2),
+            padding: spacing(3),
             backgroundColor:
               selectedDate >= new Date().toISOString().split("T")[0]
                 ? t.colors.neutral[300]
                 : t.colors.primary[500],
-            borderRadius: 8,
+            borderRadius: 12,
+            minWidth: 44,
+            alignItems: "center",
+            justifyContent: "center",
+            shadowColor:
+              selectedDate >= new Date().toISOString().split("T")[0]
+                ? "transparent"
+                : t.colors.primary[500],
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: 0.3,
+            shadowRadius: 4,
+            elevation:
+              selectedDate >= new Date().toISOString().split("T")[0] ? 0 : 3,
           }}
           disabled={selectedDate >= new Date().toISOString().split("T")[0]}
         >
@@ -193,6 +246,7 @@ export default function CaloriesPage() {
                   ? t.colors.neutral[500]
                   : "white",
               fontWeight: "bold",
+              fontSize: 18,
             }}
           >
             →
@@ -204,27 +258,51 @@ export default function CaloriesPage() {
       <View
         style={{
           backgroundColor: t.colors.primary[500],
-          padding: spacing(4),
-          borderRadius: 12,
-          marginBottom: spacing(4),
+          padding: spacing(6),
+          borderRadius: 20,
+          marginBottom: spacing(6),
           alignItems: "center",
+          shadowColor: t.colors.primary[500],
+          shadowOffset: { width: 0, height: 4 },
+          shadowOpacity: 0.3,
+          shadowRadius: 12,
+          elevation: 8,
         }}
       >
         <Text
           style={[
-            t.typography.text.sm,
-            { color: "white", marginBottom: spacing(1) },
+            t.typography.text.md,
+            {
+              color: "rgba(255,255,255,0.9)",
+              marginBottom: spacing(2),
+              fontWeight: "600",
+            },
           ]}
         >
-          Total Calories
+          📊 Total Calories {isToday(selectedDate) ? "Today" : ""}
         </Text>
         <Text
           style={[
             t.typography.heading.xl,
-            { color: "white", fontWeight: "bold" },
+            {
+              color: "white",
+              fontWeight: "900",
+              fontSize: 48,
+              textShadowColor: "rgba(0,0,0,0.3)",
+              textShadowOffset: { width: 0, height: 2 },
+              textShadowRadius: 4,
+            },
           ]}
         >
           {totalCalories || 0}
+        </Text>
+        <Text
+          style={[
+            t.typography.text.sm,
+            { color: "rgba(255,255,255,0.8)", fontWeight: "500" },
+          ]}
+        >
+          kcal
         </Text>
       </View>
 
@@ -232,30 +310,46 @@ export default function CaloriesPage() {
       <View style={{ marginBottom: spacing(6) }}>
         {!showAddForm ? (
           <Button
-            label="Add Food"
+            label="+ Add Food Entry"
             onPress={() => setShowAddForm(true)}
-            style={{ marginBottom: spacing(3) }}
+            style={{
+              marginBottom: spacing(3),
+              shadowColor: t.colors.primary[500],
+              shadowOffset: { width: 0, height: 3 },
+              shadowOpacity: 0.3,
+              shadowRadius: 6,
+              elevation: 5,
+            }}
+            size="lg"
           />
         ) : (
           <View
             style={{
-              backgroundColor: t.colors.neutral[50],
-              padding: spacing(4),
-              borderRadius: 12,
+              backgroundColor: t.colors.surface,
+              padding: spacing(5),
+              borderRadius: 16,
               marginBottom: spacing(3),
+              borderWidth: 1,
+              borderColor: t.colors.border,
+              shadowColor: "#000",
+              shadowOffset: { width: 0, height: 4 },
+              shadowOpacity: 0.1,
+              shadowRadius: 12,
+              elevation: 6,
             }}
           >
             <Text
               style={[
-                t.typography.text.md,
+                t.typography.heading.md,
                 {
                   color: t.colors.text.primary,
-                  marginBottom: spacing(3),
+                  marginBottom: spacing(4),
                   fontWeight: "bold",
+                  textAlign: "center",
                 },
               ]}
             >
-              Add Food Entry
+              🍽️ Add Food Entry
             </Text>
 
             <TextInput
@@ -297,11 +391,15 @@ export default function CaloriesPage() {
       <View style={{ marginBottom: spacing(6) }}>
         <Text
           style={[
-            t.typography.heading.md,
-            { color: t.colors.text.primary, marginBottom: spacing(3) },
+            t.typography.heading.lg,
+            {
+              color: t.colors.text.primary,
+              marginBottom: spacing(4),
+              fontWeight: "bold",
+            },
           ]}
         >
-          {isToday(selectedDate) ? "Today's" : "Day's"} Food Entries
+          🍴 {isToday(selectedDate) ? "Today's" : "Day's"} Food Entries
         </Text>
 
         {todayEntries && todayEntries.length > 0 ? (
@@ -312,39 +410,60 @@ export default function CaloriesPage() {
                 flexDirection: "row",
                 justifyContent: "space-between",
                 alignItems: "center",
-                padding: spacing(3),
-                backgroundColor: t.colors.neutral[50],
-                borderRadius: 8,
-                marginBottom: spacing(2),
+                padding: spacing(4),
+                backgroundColor: t.colors.surface,
+                borderRadius: 12,
+                marginBottom: spacing(3),
+                borderWidth: 1,
+                borderColor: t.colors.border,
+                shadowColor: "#000",
+                shadowOffset: { width: 0, height: 2 },
+                shadowOpacity: 0.05,
+                shadowRadius: 8,
+                elevation: 2,
               }}
             >
               <View style={{ flex: 1 }}>
                 <Text
                   style={[
-                    t.typography.text.md,
-                    { color: t.colors.text.primary, fontWeight: "500" },
+                    t.typography.text.lg,
+                    {
+                      color: t.colors.text.primary,
+                      fontWeight: "600",
+                      marginBottom: spacing(1),
+                    },
                   ]}
                 >
                   {entry.name}
                 </Text>
                 <Text
                   style={[
-                    t.typography.text.sm,
-                    { color: t.colors.text.secondary },
+                    t.typography.text.md,
+                    { color: t.colors.primary[500], fontWeight: "600" },
                   ]}
                 >
-                  {entry.calories} calories
+                  {entry.calories} kcal
                 </Text>
               </View>
 
               <TouchableOpacity
                 onPress={() => handleRemoveFood(entry._id)}
                 style={{
-                  padding: spacing(1),
-                  borderRadius: 6,
+                  padding: spacing(2),
+                  borderRadius: 8,
+                  backgroundColor: t.colors.danger[50],
+                  minWidth: 36,
+                  alignItems: "center",
+                  justifyContent: "center",
                 }}
               >
-                <Text style={{ color: t.colors.danger[500], fontSize: 18 }}>
+                <Text
+                  style={{
+                    color: t.colors.danger[500],
+                    fontSize: 20,
+                    fontWeight: "bold",
+                  }}
+                >
                   ×
                 </Text>
               </TouchableOpacity>
@@ -353,19 +472,39 @@ export default function CaloriesPage() {
         ) : (
           <View
             style={{
-              padding: spacing(4),
-              backgroundColor: t.colors.neutral[50],
-              borderRadius: 8,
+              padding: spacing(6),
+              backgroundColor: t.colors.surface,
+              borderRadius: 16,
               alignItems: "center",
+              borderWidth: 1,
+              borderColor: t.colors.border,
+              borderStyle: "dashed",
             }}
           >
+            <Text style={{ fontSize: 48, marginBottom: spacing(2) }}>🍽️</Text>
             <Text
               style={[
-                t.typography.text.md,
-                { color: t.colors.text.secondary, textAlign: "center" },
+                t.typography.text.lg,
+                {
+                  color: t.colors.text.secondary,
+                  textAlign: "center",
+                  fontWeight: "500",
+                },
               ]}
             >
-              No food entries for this day
+              No food entries yet
+            </Text>
+            <Text
+              style={[
+                t.typography.text.sm,
+                {
+                  color: t.colors.text.muted,
+                  textAlign: "center",
+                  marginTop: spacing(1),
+                },
+              ]}
+            >
+              Add your first meal above!
             </Text>
           </View>
         )}
@@ -375,11 +514,15 @@ export default function CaloriesPage() {
       <View>
         <Text
           style={[
-            t.typography.heading.md,
-            { color: t.colors.text.primary, marginBottom: spacing(3) },
+            t.typography.heading.lg,
+            {
+              color: t.colors.text.primary,
+              marginBottom: spacing(4),
+              fontWeight: "bold",
+            },
           ]}
         >
-          Recent Days
+          📅 Recent Days
         </Text>
 
         {previousDays && previousDays.length > 0 ? (
@@ -388,18 +531,24 @@ export default function CaloriesPage() {
               key={day.date}
               onPress={() => setSelectedDate(day.date)}
               style={{
-                padding: spacing(3),
+                padding: spacing(4),
                 backgroundColor:
                   selectedDate === day.date
                     ? t.colors.primary[100]
-                    : t.colors.neutral[50],
-                borderRadius: 8,
-                marginBottom: spacing(2),
-                borderWidth: selectedDate === day.date ? 2 : 0,
+                    : t.colors.surface,
+                borderRadius: 12,
+                marginBottom: spacing(3),
+                borderWidth: selectedDate === day.date ? 2 : 1,
                 borderColor:
                   selectedDate === day.date
                     ? t.colors.primary[500]
-                    : "transparent",
+                    : t.colors.border,
+                shadowColor:
+                  selectedDate === day.date ? t.colors.primary[500] : "#000",
+                shadowOffset: { width: 0, height: 2 },
+                shadowOpacity: selectedDate === day.date ? 0.2 : 0.05,
+                shadowRadius: 8,
+                elevation: selectedDate === day.date ? 4 : 2,
               }}
             >
               <View
@@ -412,10 +561,11 @@ export default function CaloriesPage() {
                 <View>
                   <Text
                     style={[
-                      t.typography.text.md,
+                      t.typography.text.lg,
                       {
                         color: t.colors.text.primary,
-                        fontWeight: isToday(day.date) ? "bold" : "500",
+                        fontWeight: isToday(day.date) ? "bold" : "600",
+                        marginBottom: spacing(1),
                       },
                     ]}
                   >
@@ -424,10 +574,10 @@ export default function CaloriesPage() {
                   <Text
                     style={[
                       t.typography.text.sm,
-                      { color: t.colors.text.secondary },
+                      { color: t.colors.text.secondary, fontWeight: "500" },
                     ]}
                   >
-                    {day.entries.length} food{" "}
+                    {day.entries.length}{" "}
                     {day.entries.length === 1 ? "entry" : "entries"}
                   </Text>
                 </View>
@@ -435,8 +585,8 @@ export default function CaloriesPage() {
                 <View style={{ alignItems: "flex-end" }}>
                   <Text
                     style={[
-                      t.typography.text.lg,
-                      { color: t.colors.primary[500], fontWeight: "bold" },
+                      t.typography.text.xl,
+                      { color: t.colors.primary[600], fontWeight: "800" },
                     ]}
                   >
                     {day.totalCalories}
@@ -444,10 +594,10 @@ export default function CaloriesPage() {
                   <Text
                     style={[
                       t.typography.text.sm,
-                      { color: t.colors.text.secondary },
+                      { color: t.colors.text.secondary, fontWeight: "500" },
                     ]}
                   >
-                    calories
+                    kcal
                   </Text>
                 </View>
               </View>
@@ -456,26 +606,43 @@ export default function CaloriesPage() {
         ) : (
           <View
             style={{
-              padding: spacing(4),
-              backgroundColor: t.colors.neutral[50],
-              borderRadius: 8,
+              padding: spacing(6),
+              backgroundColor: t.colors.surface,
+              borderRadius: 16,
               alignItems: "center",
+              borderWidth: 1,
+              borderColor: t.colors.border,
+              borderStyle: "dashed",
             }}
           >
+            <Text style={{ fontSize: 48, marginBottom: spacing(2) }}>📊</Text>
             <Text
               style={[
-                t.typography.text.md,
-                { color: t.colors.text.secondary, textAlign: "center" },
+                t.typography.text.lg,
+                {
+                  color: t.colors.text.secondary,
+                  textAlign: "center",
+                  fontWeight: "500",
+                },
               ]}
             >
-              No previous days data available
+              No previous data yet
+            </Text>
+            <Text
+              style={[
+                t.typography.text.sm,
+                {
+                  color: t.colors.text.muted,
+                  textAlign: "center",
+                  marginTop: spacing(1),
+                },
+              ]}
+            >
+              Start tracking to see your history!
             </Text>
           </View>
         )}
       </View>
-
-      {/* Bottom spacing */}
-      <View style={{ height: spacing(8) }} />
     </ScrollView>
   );
 }

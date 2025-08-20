@@ -12,12 +12,29 @@ export default function Index() {
   const t = useTheme();
 
   return (
-    <View style={{ flex: 1, padding: spacing(4), backgroundColor: t.colors.background }}>
+    <View
+      style={{
+        flex: 1,
+        padding: spacing(4),
+        backgroundColor: t.colors.background,
+      }}
+    >
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        {tasks?.map(({ _id, text }) => <Text key={_id} style={{ ...t.typography.text.md, color: t.colors.text.primary }}>{text}</Text>)}
+        {tasks?.map(({ _id, text }) => (
+          <Text
+            key={_id}
+            style={{ ...t.typography.text.md, color: t.colors.text.primary }}
+          >
+            {text}
+          </Text>
+        ))}
         <View style={{ height: spacing(6) }} />
+        <Link href="/calories" asChild>
+          <Button label="Track Calories" />
+        </Link>
+        <View style={{ height: spacing(3) }} />
         <Link href="/style-demo" asChild>
-          <Button label="Open Style Demo" />
+          <Button label="Open Style Demo" variant="outline" />
         </Link>
       </View>
     </View>
